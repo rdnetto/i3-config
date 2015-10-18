@@ -156,3 +156,9 @@ bar {
         status_command i3status
         tray_output primary
 }
+
+# Shortcut for Chrome
+bindsym $mod+c exec chromium-browser
+
+# Shortcut for Vim
+bindsym $mod+q exec qvim
