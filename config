@@ -169,3 +169,9 @@ workspace_auto_back_and_forth yes
 # TODO: figure out how to tell i3 to do this...
 bindsym $mod+grave workspace back_and_forth
 
+# I hate focus follows mouse
+# ...but i3 uses it with mouse warping to keep a window selected
+# ...and we want to focus workspaces on mouseover as well
+# TODO: fix this
+focus_follows_mouse no
+
