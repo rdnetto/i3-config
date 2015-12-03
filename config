@@ -185,7 +185,7 @@ bindsym $mod+grave workspace back_and_forth
 focus_follows_mouse no
 
 # locking made simple
-bindsym $mod+Shift+Escape exec i3lock
+bindsym $mod+Shift+Escape exec i3lock -c 000000
 
 # TODO: add script to automatically open new windows on a blank screen, if any available (instead of the current workspace)
 
