@@ -1,0 +1,24 @@
+# set wallpaper
+feh --bg-scale /usr/share/wallpapers/Elarun/contents/images/2560x1600.png
+
+# setup monitors
+[ -x $HOME/bin/toggle-screens.sh ] && $HOME/bin/toggle-screens.sh on
+
+# backlight
+/usr/bin/autoadjust-backlight.py
+
+# numlock
+numlockx on
+
+# change caps lock to escape
+xmodmap -e "remove Lock = Caps_Lock"
+xmodmap -e "keysym Caps_Lock = Escape"
+
+# Connect to network, set keyboard
+# konsole -e 'zsh -c "nmtui && echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode"'
+
+# Autostart (TODO: assign to screens)
+# kstart ktp-contactlist
+# kstart HipChat4
+# kstart chromium
+
