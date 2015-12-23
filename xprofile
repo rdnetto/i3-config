@@ -13,6 +13,7 @@ numlockx on
 # change caps lock to escape
 xmodmap -e "remove Lock = Caps_Lock"
 xmodmap -e "keysym Caps_Lock = Escape"
+xmodmap -e "keysym XF86Tools = Insert"
 
 # Connect to network, set keyboard
 # konsole -e 'zsh -c "nmtui && echo 2 | sudo tee /sys/module/hid_apple/parameters/fnmode"'
