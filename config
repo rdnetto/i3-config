@@ -201,7 +201,19 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status -c ~/.config/i3/i3status
         tray_output primary
+        output eDP1
 }
+
+bar {
+        status_command i3status -c ~/.config/i3/i3status-tiny
+        output DP1
+}
+
+bar {
+        status_command i3status -c ~/.config/i3/i3status-tiny
+        output HDMI1
+}
+
 
 #------------------------------------------------------------------------------------------------------------------------
 # Shortcuts for useful programs
