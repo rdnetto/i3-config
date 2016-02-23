@@ -226,3 +226,6 @@ bindsym $mod+q exec qvim
 
 # TODO: add script to automatically open new windows on a blank screen, if any available (instead of the current workspace)
 
+
+exec --no-startup-id dunst -config ~/.config/i3/dunst_config
+
