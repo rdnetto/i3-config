@@ -27,7 +27,7 @@ wireless _first_ {
         format_down = "W: down"
 }
 
-ethernet _first_ {
+ethernet eth0 {
         # if you use %speed, i3status requires root privileges
         format_up = "E: %ip (%speed)"
         format_down = "E: down"
@@ -40,6 +40,7 @@ battery 0 {
         status_chr = "⚇ CHR"
         status_bat = "⚡ BAT"
         status_full = "☻ FULL"
+        low_threshold = 20
 }
 
 path_exists VPN {
