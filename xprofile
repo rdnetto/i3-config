@@ -1,3 +1,6 @@
+# Fix Qt5 icons - from https://wiki.archlinux.org/index.php/Qt#Configuration_of_Qt_apps_under_environments_other_than_KDE
+export XDG_CURRENT_DESKTOP=KDE
+
 # set wallpaper
 feh --bg-scale /usr/share/wallpapers/Elarun/contents/images/2560x1600.png
 
