@@ -12,7 +12,7 @@ general {
 }
 
 order += "disk /"
-order += "ethernet _first_"
+order += "ethernet eth0"
 order += "wireless _first_"
 order += "ipv6"
 order += "path_exists VPN"
