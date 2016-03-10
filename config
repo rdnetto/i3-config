@@ -33,11 +33,14 @@ bindsym $mod+Return exec konsole
 bindsym $mod+Shift+q kill
 bindsym $mod+F4 kill
 
-# run rofi (dmenu replacement)
+# run rofi (programs, Ctrl+Tab to change mode)
 bindsym $mod+d exec $HOME/.config/i3/rofi.sh -show run
 
+# run rofi (windows)
+bindsym $mod+Shift+d exec $HOME/.config/i3/rofi.sh -show window
+
 # input command for i3
-bindsym $mod+Shift+d exec i3-input
+bindsym $mod+Ctrl+Shift+d exec i3-input
 
 #------------------------------------------------------------------------------------------------------------------------
 # Moving within containers
