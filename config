@@ -207,6 +207,12 @@ bar {
 }
 
 #------------------------------------------------------------------------------------------------------------------------
+# Media controls
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume $(pactl list short sinks | awk '/RUNNING/{print $1}' | head -n1) +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume $(pactl list short sinks | awk '/RUNNING/{print $1}' | head -n1) -5%
+bindsym XF86AudioMute        exec pactl set-sink-mute   $(pactl list short sinks | awk '/RUNNING/{print $1}' | head -n1) toggle
+
+#------------------------------------------------------------------------------------------------------------------------
 # Shortcuts for useful programs
 
 # locking made simple
