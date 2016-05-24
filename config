@@ -216,8 +216,8 @@ bindsym XF86AudioMute        exec pactl set-sink-mute   $(pactl list short sinks
 #------------------------------------------------------------------------------------------------------------------------
 # Shortcuts for useful programs
 
-# locking made simple
-bindsym $mod+Shift+Escape exec i3lock -e -f -t -i /usr/share/wallpapers/Next/contents/images/$(xrandr | awk '/[*]/{print $1}' | head -n1).png
+# lock screen, and auto-adjust screens if necessary
+bindsym $mod+Shift+Escape exec $HOME/.config/i3/lock.sh
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
