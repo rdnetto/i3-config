@@ -42,7 +42,7 @@ def open_db(password):
     return kpcli
 
 
-def find_entries(kpcli, prefix="/"):
+def find_entries(kpcli, prefix="Root/"):
     mode = None
     result = []
 
