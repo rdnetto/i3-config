@@ -3,7 +3,7 @@
 import os
 import sys
 import pexpect
-from types import SimpleNamespace
+import subprocess
 
 
 # TODO: should really just ask for password first, dump contents, then take input
@@ -32,16 +32,10 @@ def open_db(password):
             xs = line.split(": ", 1)
             xs[0] = xs[0].strip().lower()
 
-            if(len(xs) == 1):
-                continue
+            if(len(xs) != 1):
+                res[xs[0]] = xs[1]
 
-            elif(xs[0] == "pass"):
-                # pass is a keyword
-                xs[0] = "password"
-
-            res[xs[0]] = xs[1]
-
-        return SimpleNamespace(**res)
+        return res if len(res) > 0 else None
 
     kpcli.run = run
     kpcli.get = get
@@ -93,7 +87,7 @@ def main():
 
     # Output requested password
     entry = kpcli.get(requested_entry)
-    print(entry.password)
+    print(entry["pass"])
 
     # Close db
     kpcli.sendline("quit")
