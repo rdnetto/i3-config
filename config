@@ -40,6 +40,9 @@ bindsym $mod+d exec $HOME/.config/i3/rofi.sh -show run
 bindsym $mod+Shift+d exec $HOME/.config/i3/rofi.sh -show window
 bindsym $mod+Tab exec $HOME/.config/i3/rofi.sh -show window
 
+# run rofi (passwords)
+bindsym $mod+P exec $HOME/.config/i3/keepassx.sh
+
 # input command for i3
 bindsym $mod+Ctrl+Shift+d exec i3-input
 
