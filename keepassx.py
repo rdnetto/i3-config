@@ -22,7 +22,7 @@ def open_db(password):
 
     def run(cmd):
         kpcli.sendline(cmd)
-        kpcli.expect("kpcli:/> ")
+        kpcli.expect_exact("kpcli:/> ")
         return kpcli.before.decode("utf-8").splitlines()[1:]
 
     def get(path):
@@ -69,16 +69,44 @@ def find_entries(kpcli, prefix="Root/"):
     return result
 
 
+def gui_error(msg):
+    subprocess.check_output([
+        "kdialog",
+        "--title", "KeePassX",
+        "--error", msg
+    ])
+
+
+def gui_password_prompt():
+    try:
+        return subprocess.check_output([
+            "kdialog",
+            "--title", "KeePassX",
+            "--password", "Please enter the master password:"
+        ]).decode('utf-8').rstrip()
+
+    except subprocess.CalledProcessError:
+        # User cancelled
+        sys.exit(1)
+
+
 def main():
     # Let the user specify the entry
     requested_entry = input()
 
-    # Get the password from the user
-    # TODO: use GUI
-    with open("/tmp/a", "r") as f:
-        master = f.read().strip()
+    while True:
+        try:
+            # Get the password from the user
+            master = gui_password_prompt()
 
-    kpcli = open_db(master)
+            # Open the db
+            kpcli = open_db(master)
+            break
+
+        except pexpect.exceptions.EOF:
+            # Incorrect password
+            continue
+
     keys = find_entries(kpcli)
 
     # Update cached list
@@ -87,7 +115,11 @@ def main():
 
     # Output requested password
     entry = kpcli.get(requested_entry)
-    print(entry["pass"])
+
+    if(entry is None):
+        gui_error("Could not find entry '{}'".format(requested_entry))
+    else:
+        print(entry["pass"])
 
     # Close db
     kpcli.sendline("quit")
@@ -95,3 +127,4 @@ def main():
 
 if(__name__ == "__main__"):
     main()
+
