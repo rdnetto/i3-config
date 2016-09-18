@@ -26,6 +26,9 @@ font pango:DejaVu Sans Mono 12
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Jump to window requesting focus
+bindsym $mod+x [urgent=latest] focus
+
 # start a terminal
 bindsym $mod+Return exec konsole
 
