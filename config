@@ -213,6 +213,10 @@ bar {
         tray_output primary
 }
 
+# Hangouts insists on floating
+# Use `xwininfo` or `xprop` to get the info for these rules
+for_window  [class="chromium-browser-chromium" window_role="app"] floating disable
+
 #------------------------------------------------------------------------------------------------------------------------
 # Media controls
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume $(pactl list short sinks | awk '/RUNNING/{print $1}' | head -n1) +5%
