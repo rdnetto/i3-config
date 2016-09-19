@@ -2,7 +2,7 @@
 export XDG_CURRENT_DESKTOP=KDE
 
 # set wallpaper
-feh --bg-scale /usr/share/wallpapers/Elarun/contents/images/2560x1600.png
+feh --bg-scale /usr/share/wallpapers/Next/contents/images/2560x1600.png
 
 # setup monitors
 [ -x $HOME/bin/toggle-screens.sh ] && $HOME/bin/toggle-screens.sh on
