@@ -112,6 +112,9 @@ bindsym $smod+Shift+Right move container to output right; focus output right
 #------------------------------------------------------------------------------------------------------------------------
 # Layouts
 
+# Default layout
+workspace_layout stacking
+
 # split in horizontal orientation
 # using shift to prevent collision with Vim-style hjkl
 bindsym $mod+Shift+h split h
