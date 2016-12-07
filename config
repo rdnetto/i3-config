@@ -247,6 +247,12 @@ bindsym $mod+c exec chromium-browser
 # Shortcut for Vim
 bindsym $mod+q exec qvim
 
+# PrintScreen
+bindsym Print exec spectacle
+
+# System Monitor
+bindsym $mod+m exec mate-system-monitor
+
 # TODO: add script to automatically open new windows on a blank screen, if any available (instead of the current workspace)
 
 
