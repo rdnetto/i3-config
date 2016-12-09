@@ -253,6 +253,9 @@ bindsym Print exec spectacle
 # System Monitor
 bindsym $mod+m exec mate-system-monitor
 
+# Instant Messenger
+bindsym $mod+I exec /usr/lib64/chromium-browser/chromium-launcher.sh --profile-directory=Default --app-id=bikioccmkafdpakkkcpdbppfkghcmihk
+
 # TODO: add script to automatically open new windows on a blank screen, if any available (instead of the current workspace)
 
 
