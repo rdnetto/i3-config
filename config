@@ -31,6 +31,7 @@ bindsym $mod+x [urgent=latest] focus
 
 # start a terminal
 bindsym $mod+Return exec konsole
+bindsym $mod+Escape exec konsole
 
 # kill focused window
 bindsym $mod+Shift+q kill
