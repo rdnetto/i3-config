@@ -246,7 +246,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 bindsym $mod+c exec chromium-browser
 
 # Shortcut for Vim
-bindsym $mod+q exec qvim
+bindsym $mod+q exec nvim-qt
 
 # PrintScreen
 bindsym Print exec spectacle
