@@ -76,7 +76,7 @@ ${offset 15}${font Ubuntu:size=11:style=normal}${color1}Uptime: ${color3}$uptime
 ${voffset -20}
 ${offset 125}${cpugraph cpu0 80,220 #000000 #000000 -0.5}
 
-${voffset -25}
+${voffset -65}
 ${offset 85}${font Ubuntu:size=11:style=bold}${color5}CPU
 
 # Showing TOP 5 CPU-consumers
@@ -90,7 +90,7 @@ ${offset 105}${font Ubuntu:size=11:style=normal}${color3}${top name 5}${alignr}$
 ${voffset -20}
 ${offset 125}${memgraph 80,220 #000000 #000000 -0.5}
 
-${voffset -45}
+${voffset -70}
 ${offset 80}${font Ubuntu:size=11:style=bold}${color5}MEM
 
 #Showing memory part with TOP 3
@@ -116,19 +116,18 @@ ${offset 105}${font Ubuntu:size=11:style=normal}${color1}${top_io name 2}${align
 ${offset 105}${font Ubuntu:size=11:style=normal}${color2}${top_io name 3}${alignr}${top_io io_read 3}/ ${top_io io_write 3}
 
 # Network data
-${voffset 40}
-${offset 200}${font Ubuntu:size=10:style=bold}${color1}IP: ${alignr}$color3${addr wlp1s0} 
-${offset 190}${font Ubuntu:size=10:style=bold}${color1}NIC: ${color3}wlp1s0
+${voffset 60}
+${offset 80}${font Ubuntu:size=11:style=bold}${color5}NET
 
-${voffset -35}
-${offset 90}${font Ubuntu:size=11:style=bold}${color5}NET
+${voffset -130}
+${offset 120}${color1}${font ubuntu:size=10:style=bold}Up: ${alignr}${font Ubuntu:size=10:style=normal}$color2${upspeed wlp1s0} / ${totalup wlp1s0}
+${offset 120}${upspeedgraph wlp1s0 40,220 4B1B0C FF5C2B 1280KiB -l}
+${offset 120}${color1}${font Ubuntu:size=10:style=bold}Down: ${alignr}${font Ubuntu:size=10:style=normal}$color2${downspeed wlp1s0} / ${totaldown wlp1s0}
+${offset 120}${downspeedgraph wlp1s0 40,220 324D23 77B753 1280KiB -l}
 
-${voffset 40}             
-${offset 15}${color1}${font ubuntu:size=10:style=bold}Up: ${alignr}${font Ubuntu:size=10:style=normal}$color2${upspeed wlp1s0} / ${totalup wlp1s0}
-${offset 15}${upspeedgraph wlp1s0 40,320 4B1B0C FF5C2B 1280KiB -l}
-${offset 15}${color1}${font Ubuntu:size=10:style=bold}Down: ${alignr}${font Ubuntu:size=10:style=normal}$color2${downspeed wlp1s0} / ${totaldown wlp1s0}
-${offset 15}${downspeedgraph wlp1s0 40,320 324D23 77B753 1280KiB -l}
-
-# TODO: add temperature
+# Network data
+${voffset -30}
+${offset 80}${font Ubuntu:size=11:style=bold}${color5}TEMP
+${offset 125}${color3}${execgraph "cat /sys/class/hwmon/hwmon2/temp1_input" 80,220 #000000 #000000 80000}
 
 ]];
