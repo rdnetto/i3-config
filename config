@@ -263,5 +263,7 @@ bindsym $mod+Shift+S exec kdesudo poweroff
 # TODO: add script to automatically open new windows on a blank screen, if any available (instead of the current workspace)
 
 
+# Start background programs
 exec --no-startup-id dunst -config ~/.config/i3/dunst_config
+exec $HOME/.config/i3/conky/run.sh
 
