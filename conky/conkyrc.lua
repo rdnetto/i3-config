@@ -126,8 +126,9 @@ ${offset 120}${color1}${font Ubuntu:size=10:style=bold}Down: ${alignr}${font Ubu
 ${offset 120}${downspeedgraph wlp1s0 40,220 324D23 77B753 1280KiB -l}
 
 # Network data
-${voffset -30}
-${offset 80}${font Ubuntu:size=11:style=bold}${color5}TEMP
-${offset 125}${color3}${execgraph "cat /sys/class/hwmon/hwmon2/temp1_input" 80,220 #000000 #000000 80000}
+${voffset 30}
+${offset 60}${font Ubuntu:size=11:style=bold}${color5}TEMP
+${voffset -80}
+${offset 125}${color3}${execgraph "$HOME/.config/i3/conky/temp.sh" 80,220}
 
 ]];
