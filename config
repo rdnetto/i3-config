@@ -265,5 +265,5 @@ bindsym $mod+Shift+S exec kdesudo poweroff
 
 # Start background programs
 exec --no-startup-id dunst -config ~/.config/i3/dunst_config
-exec $HOME/.config/i3/conky/run.sh
+exec $HOME/.config/i3/conky/run.py
 
