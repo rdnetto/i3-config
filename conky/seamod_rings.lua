@@ -1,245 +1,122 @@
 require 'cairo'
 
-gauge = {
-    -- CPU
-    -- TODO: parameterise this in no. of cpus
-{
-    name='cpu',                    arg='cpu1',                  max_value=100,
-    x=65,                          y=150,
+-- Combines two dictionaries
+function merge_dicts(d1, d2)
+    res = {}
+
+    for k,v in pairs(d1) do
+        res[k] = v
+    end
+
+    for k,v in pairs(d2) do
+        res[k] = v
+    end
+
+    return res
+end
+
+gauge_defaults = {
+    -- These need to be overriden
+    name='',
+    arg='',
+    max_value=100,
+    x=0,
+    y=0,
     graph_radius=54,
-    graph_thickness=5,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=28,
-    graduation_thickness=0,        graduation_mark_thickness=1,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
+    graph_thickness=7,
     caption='',
-    caption_weight=1,              caption_size=9.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
-},
-{
-    name='cpu',                    arg='cpu2',                  max_value=100,
-    x=65,                          y=150,
-    graph_radius=48,
-    graph_thickness=5,
+    -- These can usually be left alone
     graph_start_angle=180,
     graph_unit_angle=2.7,          graph_unit_thickness=2.7,
     graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
     graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
     hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
     txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=28,
-    graduation_thickness=0,        graduation_mark_thickness=1,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='',
-    caption_weight=1,              caption_size=9.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
-},
-{
-    name='cpu',                    arg='cpu3',                  max_value=100,
-    x=65,                          y=150,
-    graph_radius=42,
-    graph_thickness=5,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=28,
-    graduation_thickness=0,        graduation_mark_thickness=1,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='',
-    caption_weight=1,              caption_size=9.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
-},
-{
-    name='cpu',                    arg='cpu4',                  max_value=100,
-    x=65,                          y=150,
-    graph_radius=36,
-    graph_thickness=5,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=28,
-    graduation_thickness=0,        graduation_mark_thickness=1,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='',
-    caption_weight=1,              caption_size=9.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
-},
-    -- Memory
-{
-    -- TODO: change this to show MB instead of %
-    name='memperc',                arg='',                      max_value=100,
-    x=65,                          y=355,
-    graph_radius=42,
-    graph_thickness=7,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=23,
-    graduation_thickness=0,        graduation_mark_thickness=2,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.5,
-    caption='',
-    caption_weight=1,              caption_size=9.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
-},
-{
-    -- TODO: change this to show MB instead of %
-    name='swapperc',               arg='',                      max_value=100,
-    x=65,                          y=355,
-    graph_radius=30,
-    graph_thickness=7,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=23,
-    graduation_thickness=0,        graduation_mark_thickness=2,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.5,
-    caption='',
-    caption_weight=1,              caption_size=9.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.3,
-},
-    -- Disk space
-{
-    name='fs_used_perc',           arg='/home/',                     max_value=100,
-    x=65,                          y=520,
-    graph_radius=42,
-    graph_thickness=7,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=23,
-    graduation_thickness=0,        graduation_mark_thickness=2,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='~',
-    caption_weight=1,              caption_size=12.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
-},
-{
-    name='fs_used_perc',           arg='/',                     max_value=100,
-    x=65,                          y=520,
-    graph_radius=30,
-    graph_thickness=7,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=1.0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=23,
-    graduation_thickness=0,        graduation_mark_thickness=2,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption=' /',
-    caption_weight=1,              caption_size=12.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
-},
-    -- Network usage
-{   -- TODO: switch to active interface
-    name='downspeedf',           arg='wlp1s0',                     max_value=100,
-    x=65,                          y=720,
-    graph_radius=42,
-    graph_thickness=7,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=28,
-    graduation_thickness=0,        graduation_mark_thickness=1,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='▼',
-    caption_weight=1,              caption_size=12.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
-},
-{
-    name='upspeedf',           arg='wlp1s0',                     max_value=100,
-    x=65,                          y=720,
-    graph_radius=30,
-    graph_thickness=7,
-    graph_start_angle=180,
-    graph_unit_angle=2.7,          graph_unit_thickness=2.7,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=0,
-    txt_radius=0,
-    txt_weight=0,                  txt_size=9.0,
-    txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
-    graduation_radius=28,
-    graduation_thickness=0,        graduation_mark_thickness=1,
-    graduation_unit_angle=27,
-    graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='▲',
-    caption_weight=1,              caption_size=12.0,
-    caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
-},
-    -- Temperature
-{
-    name='acpitemp',           arg='',                     max_value=80,
-    x=65,                          y=850,
-    graph_radius=30,
-    graph_thickness=7,
-    graph_start_angle=180,
-    graph_unit_angle=270/80,       graph_unit_thickness=270/80,
-    graph_bg_colour=0xffffff,      graph_bg_alpha=0.1,
-    graph_fg_colour=0xFFFFFF,      graph_fg_alpha=0.3,
-    hand_fg_colour=0xEF5A29,       hand_fg_alpha=0,
-    txt_radius=45,
     txt_weight=0,                  txt_size=15.0,
     txt_fg_colour=0xEF5A29,        txt_fg_alpha=1.0,
     graduation_radius=28,
     graduation_thickness=0,        graduation_mark_thickness=1,
     graduation_unit_angle=27,
     graduation_fg_colour=0xFFFFFF, graduation_fg_alpha=0.3,
-    caption='',
     caption_weight=1,              caption_size=12.0,
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
-},
+}
+
+-- Definition of gauges
+gauge = {
+    -- CPU
+    -- TODO: parameterise this in no. of cpus
+    merge_dicts(gauge_defaults, {
+        name='cpu',                    arg='cpu1',
+        x=65,                          y=150,
+        graph_radius=54,
+        graph_thickness=5,
+    }),
+    merge_dicts(gauge_defaults, {
+        name='cpu',                    arg='cpu2',
+        x=65,                          y=150,
+        graph_radius=48,
+        graph_thickness=5,
+    }),
+    merge_dicts(gauge_defaults, {
+        name='cpu',                    arg='cpu3',
+        x=65,                          y=150,
+        graph_radius=42,
+        graph_thickness=5,
+    }),
+    merge_dicts(gauge_defaults, {
+        name='cpu',                    arg='cpu4',                  max_value=100,
+        x=65,                          y=150,
+        graph_radius=36,
+        graph_thickness=5,
+    }),
+    -- Memory
+    -- TODO: change this to show MB instead of %
+    merge_dicts(gauge_defaults, {
+        name='memperc',
+        x=65,                          y=355,
+        graph_radius=42,
+    }),
+    merge_dicts(gauge_defaults, {
+        name='swapperc',
+        x=65,                          y=355,
+        graph_radius=30,
+        graph_thickness=7,
+    }),
+    -- Disk space
+    merge_dicts(gauge_defaults, {
+        name='fs_used_perc',           arg='/home/',
+        x=65,                          y=520,
+        graph_radius=42,
+        caption='~',
+    }),
+    merge_dicts(gauge_defaults, {
+        name='fs_used_perc',           arg='/',
+        x=65,                          y=520,
+        graph_radius=30,
+        caption=' /',
+    }),
+    -- Network usage
+    -- TODO: switch to active interface
+    merge_dicts(gauge_defaults, {
+        name='downspeedf',           arg='wlp1s0',                     max_value=100,
+        x=65,                          y=720,
+        graph_radius=42,
+        caption='▼',
+    }),
+    merge_dicts(gauge_defaults, {
+        name='upspeedf',           arg='wlp1s0',                     max_value=100,
+        x=65,                          y=720,
+        graph_radius=30,
+        caption='▲',
+    }),
+    -- Temperature
+    merge_dicts(gauge_defaults, {
+        name='acpitemp',
+        x=65,                          y=850,
+        graph_radius=30,
+        txt_radius = 45,
+    }),
 }
 
 -- converts color in hexa to decimal
@@ -358,7 +235,7 @@ function go_gauge_rings(display)
         value = tonumber(str)
         draw_gauge_ring(display, data, value)
     end
-    
+
     for i in pairs(gauge) do
         load_gauge_rings(display, gauge[i])
     end
@@ -367,16 +244,16 @@ end
 -------------------------------------------------------------------------------
 --                                                                         MAIN
 function conky_main()
-    if conky_window == nil then 
+    if conky_window == nil then
         return
     end
 
     local cs = cairo_xlib_surface_create(conky_window.display, conky_window.drawable, conky_window.visual, conky_window.width, conky_window.height)
     local display = cairo_create(cs)
-    
+
     local updates = conky_parse('${updates}')
     update_num = tonumber(updates)
-    
+
     if update_num > 5 then
         go_gauge_rings(display)
     end
