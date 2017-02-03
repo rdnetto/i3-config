@@ -115,7 +115,7 @@ ${offset 105}${font Ubuntu:size=11:style=normal}${color4}${top_io name 1}${align
 ${offset 105}${font Ubuntu:size=11:style=normal}${color1}${top_io name 2}${alignr}${top_io io_read 2}/ ${top_io io_write 2}
 ${offset 105}${font Ubuntu:size=11:style=normal}${color2}${top_io name 3}${alignr}${top_io io_read 3}/ ${top_io io_write 3}
 
-# Network data
+# Network data - TODO: these should be calling our functions
 ${voffset 60}
 ${offset 80}${font Ubuntu:size=11:style=bold}${color5}NET
 

@@ -57,22 +57,33 @@ gauge_defaults = {
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 }
 
-function cpu_count()
-    local cpuCount = 0
-    f = assert(io.popen('lscpu -p=cpu'))
+-- CPU Count
+cpuCount = 0
+f = assert(io.popen('lscpu -p=cpu'))
 
-    for x in f:lines() do
-        if (x:sub(1,1) ~= "#") then
-            cpuCount = cpuCount + 1
+for x in f:lines() do
+    if (x:sub(1,1) ~= "#") then
+        cpuCount = cpuCount + 1
+    end
+end
+
+function get_nic()
+    it = io.lines("/proc/net/route")
+    it() -- skip header
+
+    for route in it do
+        words = string.gmatch(route, "%S+")
+        iface = words()
+        dest = words()
+
+        if(dest == "00000000") then
+            return iface
         end
     end
-
-    return cpuCount
 end
 
 function get_cpu_gauges()
     local res = {}
-    local cpuCount = cpu_count()
 
     for i=1,cpuCount do
         table.insert(res, merge_dicts(gauge_defaults, {
@@ -87,58 +98,62 @@ function get_cpu_gauges()
 end
 
 -- Definition of gauges
-gauge = merge_lists(
-    get_cpu_gauges(),
-    {
-        -- Memory
-        -- TODO: change this to show MB instead of %
-        merge_dicts(gauge_defaults, {
-            name='memperc',
-            x=65,                          y=355,
-            graph_radius=42,
-        }),
-        merge_dicts(gauge_defaults, {
-            name='swapperc',
-            x=65,                          y=355,
-            graph_radius=30,
-            graph_thickness=7,
-        }),
-        -- Disk space
-        merge_dicts(gauge_defaults, {
-            name='fs_used_perc',           arg='/home/',
-            x=65,                          y=520,
-            graph_radius=42,
-            caption='~',
-        }),
-        merge_dicts(gauge_defaults, {
-            name='fs_used_perc',           arg='/',
-            x=65,                          y=520,
-            graph_radius=30,
-            caption=' /',
-        }),
-        -- Network usage
-        -- TODO: switch to active interface
-        merge_dicts(gauge_defaults, {
-            name='downspeedf',           arg='wlp1s0',                     max_value=100,
-            x=65,                          y=720,
-            graph_radius=42,
-            caption='▼',
-        }),
-        merge_dicts(gauge_defaults, {
-            name='upspeedf',           arg='wlp1s0',                     max_value=100,
-            x=65,                          y=720,
-            graph_radius=30,
-            caption='▲',
-        }),
-        -- Temperature
-        merge_dicts(gauge_defaults, {
-            name='acpitemp',
-            x=65,                          y=850,
-            graph_radius=30,
-            txt_radius = 45,
-        }),
-    }
-)
+function get_gauges()
+    local nic = get_nic()
+
+    return merge_lists(
+        get_cpu_gauges(),
+        {
+            -- Memory
+            -- TODO: change this to show MB instead of %
+            merge_dicts(gauge_defaults, {
+                name='memperc',
+                x=65,                          y=355,
+                graph_radius=42,
+            }),
+            merge_dicts(gauge_defaults, {
+                name='swapperc',
+                x=65,                          y=355,
+                graph_radius=30,
+                graph_thickness=7,
+            }),
+            -- Disk space
+            merge_dicts(gauge_defaults, {
+                name='fs_used_perc',           arg='/home/',
+                x=65,                          y=520,
+                graph_radius=42,
+                caption='~',
+            }),
+            merge_dicts(gauge_defaults, {
+                name='fs_used_perc',           arg='/',
+                x=65,                          y=520,
+                graph_radius=30,
+                caption=' /',
+            }),
+            -- Network usage
+            -- TODO: switch to active interface
+            merge_dicts(gauge_defaults, {
+                name='downspeedf',           arg=nic,
+                x=65,                          y=720,
+                graph_radius=42,
+                caption='▼',
+            }),
+            merge_dicts(gauge_defaults, {
+                name='upspeedf',           arg=nic,
+                x=65,                          y=720,
+                graph_radius=30,
+                caption='▲',
+            }),
+            -- Temperature
+            merge_dicts(gauge_defaults, {
+                name='acpitemp',
+                x=65,                          y=850,
+                graph_radius=30,
+                txt_radius = 45,
+            }),
+        }
+    )
+end
 
 -- converts color in hexa to decimal
 function rgb_to_r_g_b(colour, alpha)
@@ -257,6 +272,7 @@ function go_gauge_rings(display)
         draw_gauge_ring(display, data, value)
     end
 
+    local gauge = get_gauges()
     for i in pairs(gauge) do
         load_gauge_rings(display, gauge[i])
     end
