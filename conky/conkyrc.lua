@@ -125,7 +125,8 @@ ${offset 120}${upspeedgraph wlp1s0 40,220 4B1B0C FF5C2B 1280KiB -l}
 ${offset 120}${color1}${font Ubuntu:size=10:style=bold}Down: ${alignr}${font Ubuntu:size=10:style=normal}$color2${downspeed wlp1s0} / ${totaldown wlp1s0}
 ${offset 120}${downspeedgraph wlp1s0 40,220 324D23 77B753 1280KiB -l}
 
-# Network data
+# Temperature
+# TODO: we shouldn't need to fork for this
 ${voffset 30}
 ${offset 60}${font Ubuntu:size=11:style=bold}${color5}TEMP
 ${voffset -80}

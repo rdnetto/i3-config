@@ -2,14 +2,29 @@ require 'cairo'
 
 -- Combines two dictionaries
 function merge_dicts(d1, d2)
-    res = {}
+    local res = {}
 
-    for k,v in pairs(d1) do
+    for k, v in pairs(d1) do
         res[k] = v
     end
 
-    for k,v in pairs(d2) do
+    for k, v in pairs(d2) do
         res[k] = v
+    end
+
+    return res
+end
+
+-- Concatenates two lists
+function merge_lists(l1, l2)
+    local res = {}
+
+    for _, v in pairs(l1) do
+        table.insert(res, v)
+    end
+
+    for _, v in pairs(l2) do
+        table.insert(res, v)
     end
 
     return res
@@ -42,82 +57,88 @@ gauge_defaults = {
     caption_fg_colour=0xFFFFFF,    caption_fg_alpha=0.5,
 }
 
+function cpu_count()
+    local cpuCount = 0
+    f = assert(io.popen('lscpu -p=cpu'))
+
+    for x in f:lines() do
+        if (x:sub(1,1) ~= "#") then
+            cpuCount = cpuCount + 1
+        end
+    end
+
+    return cpuCount
+end
+
+function get_cpu_gauges()
+    local res = {}
+    local cpuCount = cpu_count()
+
+    for i=1,cpuCount do
+        table.insert(res, merge_dicts(gauge_defaults, {
+            name='cpu',                    arg='cpu' .. i,
+            x=65,                          y=150,
+            graph_radius=60 - 6*i,
+            graph_thickness=5,
+        }))
+    end
+
+    return res
+end
+
 -- Definition of gauges
-gauge = {
-    -- CPU
-    -- TODO: parameterise this in no. of cpus
-    merge_dicts(gauge_defaults, {
-        name='cpu',                    arg='cpu1',
-        x=65,                          y=150,
-        graph_radius=54,
-        graph_thickness=5,
-    }),
-    merge_dicts(gauge_defaults, {
-        name='cpu',                    arg='cpu2',
-        x=65,                          y=150,
-        graph_radius=48,
-        graph_thickness=5,
-    }),
-    merge_dicts(gauge_defaults, {
-        name='cpu',                    arg='cpu3',
-        x=65,                          y=150,
-        graph_radius=42,
-        graph_thickness=5,
-    }),
-    merge_dicts(gauge_defaults, {
-        name='cpu',                    arg='cpu4',                  max_value=100,
-        x=65,                          y=150,
-        graph_radius=36,
-        graph_thickness=5,
-    }),
-    -- Memory
-    -- TODO: change this to show MB instead of %
-    merge_dicts(gauge_defaults, {
-        name='memperc',
-        x=65,                          y=355,
-        graph_radius=42,
-    }),
-    merge_dicts(gauge_defaults, {
-        name='swapperc',
-        x=65,                          y=355,
-        graph_radius=30,
-        graph_thickness=7,
-    }),
-    -- Disk space
-    merge_dicts(gauge_defaults, {
-        name='fs_used_perc',           arg='/home/',
-        x=65,                          y=520,
-        graph_radius=42,
-        caption='~',
-    }),
-    merge_dicts(gauge_defaults, {
-        name='fs_used_perc',           arg='/',
-        x=65,                          y=520,
-        graph_radius=30,
-        caption=' /',
-    }),
-    -- Network usage
-    -- TODO: switch to active interface
-    merge_dicts(gauge_defaults, {
-        name='downspeedf',           arg='wlp1s0',                     max_value=100,
-        x=65,                          y=720,
-        graph_radius=42,
-        caption='▼',
-    }),
-    merge_dicts(gauge_defaults, {
-        name='upspeedf',           arg='wlp1s0',                     max_value=100,
-        x=65,                          y=720,
-        graph_radius=30,
-        caption='▲',
-    }),
-    -- Temperature
-    merge_dicts(gauge_defaults, {
-        name='acpitemp',
-        x=65,                          y=850,
-        graph_radius=30,
-        txt_radius = 45,
-    }),
-}
+gauge = merge_lists(
+    get_cpu_gauges(),
+    {
+        -- Memory
+        -- TODO: change this to show MB instead of %
+        merge_dicts(gauge_defaults, {
+            name='memperc',
+            x=65,                          y=355,
+            graph_radius=42,
+        }),
+        merge_dicts(gauge_defaults, {
+            name='swapperc',
+            x=65,                          y=355,
+            graph_radius=30,
+            graph_thickness=7,
+        }),
+        -- Disk space
+        merge_dicts(gauge_defaults, {
+            name='fs_used_perc',           arg='/home/',
+            x=65,                          y=520,
+            graph_radius=42,
+            caption='~',
+        }),
+        merge_dicts(gauge_defaults, {
+            name='fs_used_perc',           arg='/',
+            x=65,                          y=520,
+            graph_radius=30,
+            caption=' /',
+        }),
+        -- Network usage
+        -- TODO: switch to active interface
+        merge_dicts(gauge_defaults, {
+            name='downspeedf',           arg='wlp1s0',                     max_value=100,
+            x=65,                          y=720,
+            graph_radius=42,
+            caption='▼',
+        }),
+        merge_dicts(gauge_defaults, {
+            name='upspeedf',           arg='wlp1s0',                     max_value=100,
+            x=65,                          y=720,
+            graph_radius=30,
+            caption='▲',
+        }),
+        -- Temperature
+        merge_dicts(gauge_defaults, {
+            name='acpitemp',
+            x=65,                          y=850,
+            graph_radius=30,
+            txt_radius = 45,
+        }),
+    }
+)
 
 -- converts color in hexa to decimal
 function rgb_to_r_g_b(colour, alpha)
