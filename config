@@ -1,3 +1,7 @@
+# TODO: add a set of key combos to send windows to VD without following focus (e.g. mod+Shift+Ctrl)
+
+
+
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -15,6 +19,7 @@ set $smod Mod4+Mod1
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Sans Mono 12
+# font pango:Droid Sans, FontAwesome 12
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -214,7 +219,8 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         status_command i3status -c ~/.config/i3/i3status
-        tray_output primary
+        # status_command i3blocks -c ~/.config/i3/i3blocks.cfg
+        tray_output eDP-1
 }
 
 # Hangouts insists on floating
@@ -266,4 +272,5 @@ bindsym $mod+Shift+S exec kdesudo poweroff
 # Start background programs
 exec --no-startup-id dunst -config ~/.config/i3/dunst_config
 exec $HOME/.config/i3/conky/run.py
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/reuben/.config/i3/default_layout.json'"
 

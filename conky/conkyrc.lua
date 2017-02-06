@@ -126,7 +126,7 @@ ${offset 120}${color1}${font Ubuntu:size=10:style=bold}Down: ${alignr}${font Ubu
 ${offset 120}${downspeedgraph wlp1s0 40,220 324D23 77B753 1280KiB -l}
 
 # Temperature
-# TODO: we shouldn't need to fork for this
+# TODO: we shouldn't need to fork for this. TODO: need to be consistent here: acpitemp is ambient temp on shuriken, not core temp
 ${voffset 30}
 ${offset 60}${font Ubuntu:size=11:style=bold}${color5}TEMP
 ${voffset -80}

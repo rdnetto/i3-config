@@ -57,7 +57,7 @@ load {
 
 disk "/" {
         format = "HD: %avail / %percentage_free free"
-        low_threshold = 25
+        low_threshold = 20
         threshold_type = percentage_free
 }
 
