@@ -8,7 +8,7 @@ feh --bg-scale /usr/share/wallpapers/Next/contents/images/2560x1600.png
 [ -x $HOME/bin/toggle-screens.sh ] && $HOME/bin/toggle-screens.sh on
 
 # backlight
-/usr/bin/autoadjust-backlight.py
+[ -x /usr/bin/autoadjust-backlight.py ] && /usr/bin/autoadjust-backlight.py
 
 # numlock
 numlockx on
