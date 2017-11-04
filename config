@@ -261,7 +261,7 @@ bindsym Print exec spectacle
 bindsym $mod+m exec mate-system-monitor
 
 # Instant Messenger
-bindsym $mod+I exec /usr/lib64/chromium-browser/chromium-launcher.sh --profile-directory=Default --app-id=bikioccmkafdpakkkcpdbppfkghcmihk
+bindsym $mod+I exec /opt/Signal/signal-desktop
 
 # shutdown shortcut (for Rosa)
 bindsym $mod+Shift+S exec kdesudo poweroff
