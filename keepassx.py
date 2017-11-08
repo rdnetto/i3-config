@@ -10,12 +10,15 @@ import subprocess
 # This would eliminate the need for a cache, but would require a circle of pipes
 
 
+HOME = os.environ['HOME']
+
+
 def escape(s):
     return s.replace(" ", r"\ ").replace("/", r"\\/")
 
 
 def open_db(password):
-    kpcli = pexpect.spawn("kpcli --kdb /home/reuben/.config/keepassx/Database.kdbx --readonly")
+    kpcli = pexpect.spawn("kpcli --kdb " + HOME + "/.config/keepassx/Database.kdbx --readonly")
     kpcli.expect("Please provide the master password: ")
     kpcli.sendline(password)
     kpcli.expect("kpcli:/> ")
@@ -110,7 +113,7 @@ def main():
     keys = find_entries(kpcli)
 
     # Update cached list
-    with open("/home/reuben/.cache/keepass", "w") as f:
+    with open(HOME + "/.cache/keepass", "w") as f:
         f.writelines([k + "\n" for k in keys])
 
     # Output requested password
