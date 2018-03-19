@@ -149,6 +149,9 @@ icon_position = left
 # Paths to default icons.
 icon_folders = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
 
+# High res icons can be massive, so limit the size
+max_icon_size = 64
+
 [frame]
 width = 3
 color = "#aaaaaa"
