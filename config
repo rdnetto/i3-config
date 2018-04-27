@@ -273,4 +273,5 @@ bindsym $mod+Shift+S exec kdesudo poweroff
 exec --no-startup-id dunst -config ~/.config/i3/dunst_config
 exec $HOME/.config/i3/conky/run.py
 exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/reuben/.config/i3/default_layout.json'"
+exec --no-startup-id /usr/bin/kdeconnect-indicator
 
