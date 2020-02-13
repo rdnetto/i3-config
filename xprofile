@@ -2,7 +2,7 @@
 export XDG_CURRENT_DESKTOP=KDE
 
 # set wallpaper
-feh --bg-scale /usr/share/wallpapers/Next/contents/images/2560x1600.png
+feh --bg-scale --bg-center $HOME/.config/i3/wallpapers/transsky.jpg $HOME/.config/i3/wallpapers/transbianSky.png $HOME/.config/i3/wallpapers/lesbianSky.png
 
 # setup monitors
 [ -x $HOME/bin/toggle-screens.sh ] && $HOME/bin/toggle-screens.sh on
