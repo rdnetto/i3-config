@@ -1,0 +1,11 @@
+# This is used to remap commit author names/email addresses
+# https://www.git-scm.com/docs/git-shortlog#_mapping_authors
+#
+# Note however that it is only enabled by default as of Git 2.23.
+# users on older versions will need to run:
+#   git config --global --add log.mailmap true
+# https://github.com/git/git/blob/v2.23.0/Documentation/RelNotes/2.23.0.txt#L13
+
+Renee D'Netto <rdnetto@gmail.com>
+Renee D'Netto <rdnetto@atlassian.com>
+
