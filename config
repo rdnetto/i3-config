@@ -233,6 +233,9 @@ bindsym XF86AudioRaiseVolume exec pactl set-sink-volume $(pactl list short sinks
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume $(pactl list short sinks | awk '/RUNNING/{print $1}' | head -n1) -5%
 bindsym XF86AudioMute        exec pactl set-sink-mute   $(pactl list short sinks | awk '/RUNNING/{print $1}' | head -n1) toggle
 
+bindsym XF86MonBrightnessDown exec $HOME/.config/i3/adjust_brightness.py down
+bindsym XF86MonBrightnessUp   exec $HOME/.config/i3/adjust_brightness.py up
+
 #------------------------------------------------------------------------------------------------------------------------
 # Shortcuts for useful programs
 
@@ -274,6 +277,6 @@ bindsym $mod+Shift+S exec kdesudo poweroff
 # Start background programs
 exec --no-startup-id dunst -config ~/.config/i3/dunst_config
 exec $HOME/.config/i3/conky/run.py
-exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/reuben/.config/i3/default_layout.json'"
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/renee/.config/i3/default_layout.json'"
 exec --no-startup-id /usr/bin/kdeconnect-indicator
 
